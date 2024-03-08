@@ -51,6 +51,8 @@ jobs:
    # inside ECS Cluster see container run image below and container public ip 
    ![image](https://github.com/kamblesuraj432/cicd-project/assets/140583784/a11e3577-0e03-4c3f-b721-33c6643d50e3)
 
+   # app run in website see below image
+   ![image](https://github.com/kamblesuraj432/cicd-project/assets/140583784/d03fa52d-8589-462b-8bb7-9740422486a2)
 
-![image](https://github.com/kamblesuraj432/cicd-project/assets/140583784/9d328144-aa51-4605-8e68-5a6bfb1d4c5f)
+
 
