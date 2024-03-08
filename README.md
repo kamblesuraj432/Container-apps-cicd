@@ -26,6 +26,12 @@ jobs:
         docker build -t kamblesuraj432/webapp .
         docker login -u kamblesuraj432 -p dckr_pat_mvMwzXSRGgFCiH9YNsPBoZc4zV4
         docker push kamblesuraj432/webapp
+![image](https://github.com/kamblesuraj432/cicd-project/assets/140583784/e840794b-a143-4d6e-8122-6abe05c03596)
+
+# docker image in Docker-Hub account
+![image](https://github.com/kamblesuraj432/cicd-project/assets/140583784/90f1b099-f512-431b-ac2d-388bf6a69531)
+
+
 # How to run the deployment script or commands to deploy the container to the chosen cloud service.
 -- aws cli install in vm
 # Login to aws account using AWS CLI access key & secret key
