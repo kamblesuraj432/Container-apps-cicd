@@ -33,6 +33,7 @@ jobs:
 
 
 # How to run the deployment script or commands to deploy the container to the chosen cloud service.
+## For AWS, this could be deploying to Amazon ECS (Elastic Container Service) using the AWS CLI.
 -- aws cli install in vm
 # Login to aws account using AWS CLI access key & secret key
 1) aws configure
