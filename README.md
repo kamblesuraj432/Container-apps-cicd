@@ -2,8 +2,6 @@
 # The steps to build and run the Docker container locally.
 1) docker build -t kamblesuraj432/webapp .
 2) docker run -d -p 80:80 kamblesuraj432/webapp
-3) docker login -u kamblesuraj432 -p dckr_pat_mvMwzXSRGgFCiH9YNsPBoZc4zV4
-4) docker push kamblesuraj432/webapp
 
 # How the CI/CD pipeline works and how to trigger it.
 name: Docker Image CI
