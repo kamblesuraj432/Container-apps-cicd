@@ -1,8 +1,9 @@
 # cicd-project
 # The steps to build and run the Docker container locally.
----- docker build -t kamblesuraj432/webapp .
-     docker login -u kamblesuraj432 -p dckr_pat_mvMwzXSRGgFCiH9YNsPBoZc4zV4
-     docker push kamblesuraj432/webapp
+1) docker build -t kamblesuraj432/webapp .
+2) docker run -d -p 80:80 kamblesuraj432/webapp
+3) docker login -u kamblesuraj432 -p dckr_pat_mvMwzXSRGgFCiH9YNsPBoZc4zV4
+4) docker push kamblesuraj432/webapp
 
 # How the CI/CD pipeline works and how to trigger it.
 name: Docker Image CI
@@ -27,12 +28,15 @@ jobs:
         docker push kamblesuraj432/webapp
 # How to run the deployment script or commands to deploy the container to the chosen cloud service.
 -- aws cli install in vm
-- aws configure
-- aws ecs create-cluster --cluster-name webapp
-- aws ecs create-service \
-    --cluster example-cluster \
-    --task-definition Test-fargate-EFS \
+# Login to aws account using AWS CLI access key & secret key
+1) aws configure
+
+# Create ECS Cluster using AWS CLI below commands
+1) aws ecs create-cluster --cluster-name webapp
+2) aws ecs create-service \
+    --cluster webapp \
+    --task-definition mytask \
     --launch-type FARGATE \
-    --service-name example-service \
+    --service-name my-service \
     --desired-count 1 \
-    --network-configuration="awsvpcConfiguration={subnets=["subnet-ed7d31b5","subnet-833ef1cb"],securityGroups=["sg-eeb28aa1"],assignPublicIp=ENABLED}"
+    --network-configuration="awsvpcConfiguration={subnets=["subnet-06a9279bc535290d6"],securityGroups=["sg-0254257d9cd638b0e"],assignPublicIp=ENABLED}"
