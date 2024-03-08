@@ -25,6 +25,8 @@ jobs:
         docker build -t kamblesuraj432/webapp .
         docker login -u kamblesuraj432 -p dckr_pat_mvMwzXSRGgFCiH9YNsPBoZc4zV4
         docker push kamblesuraj432/webapp
+
+## Below image is CI-CD(GitHub Action)..
 ![image](https://github.com/kamblesuraj432/cicd-project/assets/140583784/e840794b-a143-4d6e-8122-6abe05c03596)
 
 # docker image in Docker-Hub account
