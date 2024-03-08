@@ -47,6 +47,10 @@ jobs:
     --desired-count 1 \
     --network-configuration="awsvpcConfiguration={subnets=["subnet-06a9279bc535290d6"],securityGroups=["sg-0254257d9cd638b0e"],assignPublicIp=ENABLED}"
    ![image](https://github.com/kamblesuraj432/cicd-project/assets/140583784/4e63cd49-1032-4c69-bed1-0318c137faf1)
+   
+   # inside ECS Cluster see container run image below and container public ip 
+   ![image](https://github.com/kamblesuraj432/cicd-project/assets/140583784/a11e3577-0e03-4c3f-b721-33c6643d50e3)
+
 
 ![image](https://github.com/kamblesuraj432/cicd-project/assets/140583784/9d328144-aa51-4605-8e68-5a6bfb1d4c5f)
 
