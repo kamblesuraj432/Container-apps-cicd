@@ -3,6 +3,7 @@
 1) docker build -t kamblesuraj432/webapp .
 2) docker run -d -p 80:80 kamblesuraj432/webapp
 
+
 # How the CI/CD pipeline works and how to trigger it.
 name: Docker Image CI
 
@@ -28,6 +29,7 @@ jobs:
 
 # docker image in Docker-Hub account
 ![image](https://github.com/kamblesuraj432/cicd-project/assets/140583784/90f1b099-f512-431b-ac2d-388bf6a69531)
+
 
 
 # How to run the deployment script or commands to deploy the container to the chosen cloud service.
