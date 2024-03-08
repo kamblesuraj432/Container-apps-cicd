@@ -37,7 +37,7 @@ jobs:
 -- aws cli install in vm
 # Login to aws account using AWS CLI access key & secret key
 1) aws configure
-## push docker images to the ECR for using ECS see below images
+## push docker image to the ECR because we use this image to the ECS 
 ![image](https://github.com/kamblesuraj432/cicd-project/assets/140583784/ef738548-de88-4a2a-87b1-4739ad064abd)
 
 # Create ECS Cluster using AWS CLI below commands
