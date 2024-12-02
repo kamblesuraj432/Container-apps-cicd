@@ -1,0 +1,11 @@
+version: 2.1
+workflows:
+  testing:
+    jobs:
+      - runners-test
+jobs:
+  runner-test
+    machine: true
+    resource_class: kamblrsuraj432/testclass
+    steps:
+      - run: echo "Hi I'm on Runners!"
