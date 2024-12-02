@@ -10,7 +10,7 @@ jobs:
     resource_class: kamblrsuraj432/testclass
     steps:
       - run: |
-          sudo bash -c cd /home/ubuntu && mkdir suraj
+          sudo apt-get install nginx -y
 
 workflows:
     testing:
