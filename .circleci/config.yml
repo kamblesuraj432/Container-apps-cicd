@@ -10,8 +10,7 @@ jobs:
     resource_class: kamblrsuraj432/testclass
     steps:
       - run: |
-          sudo cd /home/ubuntu
-          sudo mkdir suraj
+          sudo bash -c cd /home/ubuntu && mkdir suraj
 
 workflows:
     testing:
