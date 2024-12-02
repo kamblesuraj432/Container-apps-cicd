@@ -5,6 +5,15 @@ jobs:
     resource_class: kamblrsuraj432/testclass
     steps:
       - run: echo "Hi I'm on Runners!"
+  test:
+    machine: true
+    resource_class: kamblrsuraj432/testclass
+    steps:
+      - run:
+          name: creating suraj folder
+          command: |
+             cd /home/ubuntu
+             mkdir suraj
 
 workflows:
     testing:
