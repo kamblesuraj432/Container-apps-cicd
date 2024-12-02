@@ -9,11 +9,7 @@ jobs:
     machine: true
     resource_class: kamblrsuraj432/testclass
     steps:
-      - run:
-          name: creating suraj folder
-          command: |
-             sudo cd /home/ubuntu
-             sudo mkdir suraj
+      - run: cd /home/ubuntu && mkdir suraj
 
 workflows:
     testing:
