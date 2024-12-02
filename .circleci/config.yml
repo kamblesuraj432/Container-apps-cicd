@@ -1,11 +1,13 @@
 version: 2.1
-workflows:
-  testing:
-    jobs:
-      - runners-test
 jobs:
-  runner-test:
-    machine: true
+  build:
+    docker:
+      - image: cimg/base:current
     resource_class: kamblrsuraj432/testclass
     steps:
       - run: echo "Hi I'm on Runners!"
+
+workflows:
+    testing:
+       jobs:
+        - build
