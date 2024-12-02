@@ -12,8 +12,8 @@ jobs:
       - run:
           name: creating suraj folder
           command: |
-             cd /home/ubuntu
-             mkdir suraj
+             sudo cd /home/ubuntu
+             sudo mkdir suraj
 
 workflows:
     testing:
