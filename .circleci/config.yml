@@ -4,7 +4,7 @@ jobs:
     machine: true
     resource_class: kamblrsuraj432/testclass
     steps:
-      - run: echo "Hi I'm on Runners!"
+      - run: echo $USER && whoami
   test:
     machine: true
     resource_class: kamblrsuraj432/testclass
