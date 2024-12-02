@@ -1,6 +1,7 @@
 version: 2.1
 jobs:
   build:
+    machine: true
     resource_class: kamblrsuraj432/testclass
     steps:
       - run: echo "Hi I'm on Runners!"
