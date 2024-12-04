@@ -6,7 +6,7 @@ jobs:
       - checkout
       - setup_remote_docker:
       - run:
-          name: Build Docker Image
+          name: Build1 Docker Image
           command: |
             docker build -t kamblesuraj432/your_image_name:$CIRCLE_SHA1 .
       - run:
