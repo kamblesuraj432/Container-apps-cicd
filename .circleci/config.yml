@@ -1,45 +1,29 @@
 version: 2.1
-
-executors:
-  docker-executor:
-    docker:
-      - image: circleci/python:3.8
-    working_directory: ~/repo
-
 jobs:
   build:
-    executor: docker-executor
+    working_directory: ~/app
+    docker:
+      - image: cimg/base:2022.09
+        auth:
+          username: $DOCKERHUB_USERNAME
+          password: $DOCKERHUB_PASSWORD
     steps:
       - checkout
       - setup_remote_docker:
+          docker_layer_caching: true
       - run:
-          name: Build Docker Image
+          name: Build Docker image
           command: |
-            docker build -t kamblesuraj432/your_image_name:$CIRCLE_SHA1 .
+            TAG=0.1.$CIRCLE_BUILD_NUM
+            docker build -t $DOCKERHUB_USERNAME/circleci-new-docker-example:$TAG .
       - run:
-          name: Login to DockerHub
+          name: Push application Docker image
           command: |
-            docker login -u $DOCKERHUB_USERNAME -p $DOCKER_PASSWORD
-      - run:
-          name: Push Docker Image to DockerHub
-          command: |
-            docker push kamblesuraj432/your_image_name:$CIRCLE_SHA1
-
-  test:
-    executor: docker-executor
-    steps:
-      - checkout
-      - run:
-          name: Run Tests
-          command: |
-            . venv/bin/activate && pytest
+            TAG=0.1.$CIRCLE_BUILD_NUM
+            echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
+            docker push $DOCKERHUB_USERNAME/circleci-new-docker-example:$TAG
 
 workflows:
-  version: 2
-  build_and_push:
-    jobs:
-      - build
-      - test:
-          requires:
-            - build
-
+  docker_push_image:
+     jobs:
+       - build
