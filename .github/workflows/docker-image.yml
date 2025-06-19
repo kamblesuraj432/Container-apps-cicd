@@ -97,7 +97,7 @@ jobs:
           
           # Get current task definition
           CURRENT_TASK=$(aws ecs describe-task-definition \
-            --task-definition your-task-definition-family \
+            --task-definition taskdef \
             --region $AWS_REGION)
           
           # Update container image
@@ -125,9 +125,9 @@ jobs:
           AWS_REGION: ${{ needs.checkout-and-auth.outputs.aws-region }}
         run: |
           aws ecs update-service \
-            --cluster your-cluster \
-            --service your-service \
-            --task-definition your-task-definition-family:$NEW_REVISION \
+            --cluster kamblesuraj432-test \
+            --service my-services \
+            --task-definition taskdef:$NEW_REVISION \
             --force-new-deployment \
             --region $AWS_REGION
       
@@ -136,6 +136,6 @@ jobs:
           AWS_REGION: ${{ needs.checkout-and-auth.outputs.aws-region }}
         run: |
           aws ecs wait services-stable \
-            --cluster your-cluster \
-            --services your-service \
+            --cluster kamblesuraj432-test \
+            --services my-services \
             --region $AWS_REGION
