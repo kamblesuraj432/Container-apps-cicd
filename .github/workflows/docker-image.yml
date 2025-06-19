@@ -44,5 +44,5 @@ jobs:
           # Then update service with new task revision:
           aws ecs update-service \
             --cluster kamblesuraj432-test \
-            --service my-service \
+            --service my-services \
             --force-new-deployment
