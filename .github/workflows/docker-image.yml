@@ -43,6 +43,6 @@ jobs:
           # aws ecs register-task-definition --cli-input-json file://taskdef.json
           # Then update service with new task revision:
           aws ecs update-service \
-            --cluster my-cluster \
+            --cluster kamblesuraj432-test \
             --service my-service \
             --force-new-deployment
