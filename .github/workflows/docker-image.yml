@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       image-tag: ${{ steps.set-tag.outputs.image_tag }}
+      aws-region: us-east-1
     steps:
       - name: 📥 Checkout Code
         uses: actions/checkout@v4
@@ -26,6 +27,11 @@ jobs:
         id: set-tag
         run: |
           echo "image_tag=${{ github.sha }}" >> $GITHUB_OUTPUT
+      
+      - name: 🌍 Set AWS Region
+        id: set-region
+        run: |
+          echo "region=us-east-1" >> $GITHUB_OUTPUT
 
   build-and-push:
     name: 🐳 Build & Push to ECR
@@ -34,9 +40,18 @@ jobs:
     outputs:
       image-uri: ${{ steps.push-image.outputs.image_uri }}
     steps:
+      - name: 🔑 Configure AWS Credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::050451400373:role/Github-ECS-cicd-role
+          aws-region: us-east-1
+          mask-aws-account-id: false
+      
       - name: 🔒 Login to Amazon ECR
         id: ecr-login
         uses: aws-actions/amazon-ecr-login@v1
+        with:
+          region: ${{ needs.checkout-and-auth.outputs.aws-region }}  # CRITICAL FIX
       
       - name: 🛠️ Build Docker Image
         env:
@@ -64,20 +79,22 @@ jobs:
       - name: 🔑 Configure AWS Credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::<AWS_ACCOUNT_ID>:role/<IAM_ROLE_NAME>
-          aws-region: us-east-1
+          role-to-assume: arn:aws:iam::050451400373:role/Github-ECS-cicd-role
+          aws-region: ${{ needs.checkout-and-auth.outputs.aws-region }}
+          mask-aws-account-id: false
       
       - name: 📝 Update Task Definition
         id: update-task
         env:
           IMAGE_URI: ${{ needs.build-and-push.outputs.image-uri }}
+          AWS_REGION: ${{ needs.checkout-and-auth.outputs.aws-region }}
         run: |
-          # Install jq for JSON processing
           sudo apt-get install -y jq
           
           # Get current task definition
           CURRENT_TASK=$(aws ecs describe-task-definition \
-            --task-definition your-task-definition-family)
+            --task-definition your-task-definition-family \
+            --region $AWS_REGION)
           
           # Update container image
           UPDATED_TASK=$(echo $CURRENT_TASK | jq \
@@ -92,23 +109,29 @@ jobs:
           
           # Register new revision
           NEW_TASK=$(aws ecs register-task-definition \
-            --cli-input-json "$FILTERED_TASK")
+            --cli-input-json "$FILTERED_TASK" \
+            --region $AWS_REGION)
           
           # Extract new revision number
           NEW_REV=$(echo $NEW_TASK | jq -r '.taskDefinition.revision')
           echo "NEW_REVISION=$NEW_REV" >> $GITHUB_ENV
       
       - name: 🚀 Deploy to ECS
+        env:
+          AWS_REGION: ${{ needs.checkout-and-auth.outputs.aws-region }}
         run: |
           aws ecs update-service \
             --cluster your-cluster \
             --service your-service \
             --task-definition your-task-definition-family:$NEW_REVISION \
-            --force-new-deployment
+            --force-new-deployment \
+            --region $AWS_REGION
       
       - name: ✅ Verify Deployment
+        env:
+          AWS_REGION: ${{ needs.checkout-and-auth.outputs.aws-region }}
         run: |
           aws ecs wait services-stable \
             --cluster your-cluster \
             --services your-service \
-            --region us-east-1
+            --region $AWS_REGION
