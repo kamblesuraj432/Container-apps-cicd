@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       image-tag: ${{ steps.set-tag.outputs.image_tag }}
-      aws-region: us-east-1
+      aws-region: ${{ steps.set-region.outputs.region }}  # Fixed output reference
     steps:
       - name: 📥 Checkout Code
         uses: actions/checkout@v4
@@ -40,18 +40,22 @@ jobs:
     outputs:
       image-uri: ${{ steps.push-image.outputs.image_uri }}
     steps:
+      # ADDED CHECKOUT STEP HERE
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+      
       - name: 🔑 Configure AWS Credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::050451400373:role/Github-ECS-cicd-role
-          aws-region: us-east-1
+          aws-region: ${{ needs.checkout-and-auth.outputs.aws-region }}  # Fixed region reference
           mask-aws-account-id: false
       
       - name: 🔒 Login to Amazon ECR
         id: ecr-login
         uses: aws-actions/amazon-ecr-login@v1
         with:
-          region: ${{ needs.checkout-and-auth.outputs.aws-region }}  # CRITICAL FIX
+          region: ${{ needs.checkout-and-auth.outputs.aws-region }}
       
       - name: 🛠️ Build Docker Image
         env:
