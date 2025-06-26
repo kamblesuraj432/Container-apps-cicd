@@ -6,10 +6,11 @@ on:
   workflow_dispatch:
 
 env:
-  AZURE_CONTAINER_REGISTRY: "containerappdemo432.azurecr.io"  # Replace with your ACR name
-  CONTAINER_APP_NAME: "demo-container-app"                   # Replace with your Container App name
-  RESOURCE_GROUP: "C-Apps-RG"                 # Replace with your resource group
-  IMAGE_NAME: "nginx"                         # Replace with your image name
+  AZURE_CONTAINER_REGISTRY: containerappdemo432.azurecr.io  # Replace with your ACR name
+  CONTAINER_APP_NAME: demo-container-app
+  CONTAINER_ENV: managedEnvironment-CAppsRG-ad08                   # Replace with your Container App name
+  RESOURCE_GROUP: C-Apps-RG                 # Replace with your resource group
+  IMAGE_NAME: nginx                         # Replace with your image name
 
 jobs:
   build-and-deploy:
@@ -36,13 +37,14 @@ jobs:
         docker build -t ${{ env.AZURE_CONTAINER_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }} .
         docker push ${{ env.AZURE_CONTAINER_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
 
-    - name: Deploy to Container Apps
-      uses: azure/CLI@v1
-      with:
-        azcliversion: 2.40.0
-        inlineScript: |
-          az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}  # Add this line
-          #az extension add --name containerapp --upgrade
+    #- name: Deploy to Container Apps
+      #uses: azure/login@v1
+      #with:
+        #azcliversion: 2.40.0
+    - name: Deploy to Azure Container Apps
+      run: |
+          #az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}  # Add this line
+          az extension add --name containerapp --upgrade
           az containerapp update \
             --name ${{ env.CONTAINER_APP_NAME }} \
             --resource-group ${{ env.RESOURCE_GROUP }} \
