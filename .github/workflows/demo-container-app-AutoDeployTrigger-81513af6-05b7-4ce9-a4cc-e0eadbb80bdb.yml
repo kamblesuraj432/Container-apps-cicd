@@ -4,8 +4,8 @@ name: Trigger auto deployment for demo-container-app
 on:
   # Automatically trigger it when detected changes in repo
   push:
-    branches: 
-      [ main ]
+    #branches: 
+      #[ main ]
     paths:
     - '**'
     - '.github/workflows/demo-container-app-AutoDeployTrigger-81513af6-05b7-4ce9-a4cc-e0eadbb80bdb.yml'
